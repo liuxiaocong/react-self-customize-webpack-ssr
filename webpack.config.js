@@ -3,6 +3,21 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlCdnWebpackPlugin = require('add-asset-html-cdn-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+
+//not need to use this, MiniCssExtractPlugin already support hmr
+const cssLoaderLast = process.env.NODE_ENV === 'development'?
+      'style-loader':
+      {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          publicPath: '/css',
+          hmr: true,
+        },
+      }
+
+
 module.exports = {
   entry: {
     main: path.resolve(__dirname, "src/index.js"),
@@ -21,6 +36,12 @@ module.exports = {
       template: './src/about.html',
       filename: './about.html',
     }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ],
   module: {
     rules: [
@@ -34,7 +55,14 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '/css',
+              hmr: true,
+            },
+          },
+          //'style-loader',
           {
             loader: 'css-loader',
             options: {

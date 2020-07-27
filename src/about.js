@@ -1,11 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
-const App = ()=>{
-  return (
-    <h1>About react</h1>
-  )
-}
-
+import About from './container/about';
 const wrapper = document.getElementById("root");
-wrapper ? ReactDOM.render(<App />, wrapper) : false;
+wrapper ? ReactDOM.render(<About />, wrapper) : false;
