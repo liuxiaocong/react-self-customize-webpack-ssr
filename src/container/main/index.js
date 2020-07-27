@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import $ from 'jquery';
 import Input from "../../components/input";
+import style from './stye.css';
+import './app.css';
+console.log(style);
 class MainContainer extends Component {
   constructor() {
     super();
@@ -16,17 +19,21 @@ class MainContainer extends Component {
   render() {
     const { value } = this.state;
     return (
-      <form id="article-form">
-        <Input
-          text="SEO title"
-          label="seo_title"
-          type="text"
-          id="seo_title"
-          value={value}
-          handleChange={this.handleChange}
-        />
-        <p>{this.state.value}</p>
-      </form>
+      <div>
+        <h2 className={ style.title }>React self custom</h2>
+        <h2 className={ 'title' }>React self custom</h2>
+        <form id="article-form">
+          <Input
+            text="SEO title"
+            label="seo_title"
+            type="text"
+            id="seo_title"
+            value={ value }
+            handleChange={ this.handleChange }
+          />
+          <p>{ this.state.value }</p>
+        </form>
+      </div>
     );
   }
 }

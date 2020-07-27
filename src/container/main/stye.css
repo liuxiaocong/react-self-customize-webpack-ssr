@@ -1,0 +1,9 @@
+.title {
+  color: burlywood;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+:global .title{
+  color: #F00;
+}
