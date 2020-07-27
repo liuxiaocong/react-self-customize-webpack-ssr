@@ -4,6 +4,24 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlCdnWebpackPlugin = require('add-asset-html-cdn-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 module.exports = {
+  entry: {
+    main: path.resolve(__dirname, "src/index.js"),
+    about: path.resolve(__dirname, "src/about.js")
+  },
+  output: {
+    path: path.resolve(__dirname, 'build'), //出口文件輸出的路徑
+    filename: '[name].js' //出口文件，[name]為入口文件陣列的名稱main喔！
+  },
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+      filename: './index.html',
+    }),
+    new HtmlWebPackPlugin({
+      template: './src/about.html',
+      filename: './about.html',
+    }),
+  ],
   module: {
     rules: [
       {
@@ -28,6 +46,18 @@ module.exports = {
         ],
       },
       {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[contenthash].[ext]',
+              outputPath: 'images',
+            },
+          },
+        ],
+      },
+      {
         test: /\.html$/,
         use: [
           {
@@ -37,12 +67,6 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebPackPlugin({
-      template: './src/index.html',
-      filename: './index.html',
-    }),
-  ],
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
   },

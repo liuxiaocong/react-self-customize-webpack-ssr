@@ -4,6 +4,8 @@ import $ from 'jquery';
 import Input from "../../components/input";
 import style from './stye.css';
 import './app.css';
+import largeImg from '../../image/100k.png';
+import mediumImg from '../../image/33k.png';
 console.log(style);
 class MainContainer extends Component {
   constructor() {
@@ -22,6 +24,14 @@ class MainContainer extends Component {
       <div>
         <h2 className={ style.title }>React self custom</h2>
         <h2 className={ 'title' }>React self custom</h2>
+        <div className={style.imgWrap}>
+          <img src={largeImg} />
+          <img style={{
+            width: 200,
+            height: 'auto',
+            objectFit: 'contain'
+          }} src={mediumImg} />
+        </div>
         <form id="article-form">
           <Input
             text="SEO title"

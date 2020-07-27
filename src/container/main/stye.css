@@ -4,6 +4,11 @@
   font-size: 15px;
 }
 
-:global .title{
+:global .title {
   color: #F00;
+}
+
+.imgWrap {
+  display: flex;
+  flex-direction: row;
 }
