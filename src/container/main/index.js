@@ -1,50 +1,44 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import $ from 'jquery';
-import Input from "../../components/input";
-import style from './stye.css';
-import './app.css';
-import largeImg from '../../image/100k.png';
-import mediumImg from '../../image/33k.png';
-console.log(style);
-class MainContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      value: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleChange(event) {
-    this.setState({ value : event.target.value });
-  }
-  render() {
-    const { value } = this.state;
-    return (
-      <div>
-        <h2 className={ style.title }>React self custom</h2>
-        <h2 className={ 'title' }>React self custom</h2>
-        <div className={style.imgWrap}>
-          <img src={largeImg} />
-          <img style={{
-            width: 200,
-            height: 'auto',
-            objectFit: 'contain'
-          }} src={mediumImg} />
-        </div>
-        <form id="article-form">
-          <Input
-            text="SEO title"
-            label="seo_title"
-            type="text"
-            id="seo_title"
-            value={ value }
-            handleChange={ this.handleChange }
-          />
-          <p>{ this.state.value }</p>
-        </form>
-      </div>
-    );
-  }
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Form from '../form';
+import style from './style.css';
+
+const Todo = ()=>{
+  return (
+    <div>Todo</div>
+  )
 }
-export default MainContainer;
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul className={style.liWrap}>
+            <li>
+              <Link to="/">Form</Link>
+            </li>
+            <li>
+              <Link to="/todo">Todo</Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+         renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/todo">
+            <Todo />
+          </Route>
+          <Route path="/">
+            <Form />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}

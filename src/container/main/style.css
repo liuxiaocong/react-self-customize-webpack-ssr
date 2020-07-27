@@ -1,0 +1,15 @@
+.liWrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.liWrap li {
+  list-style: none;
+  margin: 0 20px;
+  color: cadetblue;
+  text-transform: uppercase;
+}
+
+.liWrap li:hover {
+  text-decoration: underline;
+}
