@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Switch,
   Route,
   Link
@@ -15,30 +15,28 @@ const Todo = ()=>{
 }
 export default function App() {
   return (
-    <Router>
-      <div>
-        <nav>
-          <ul className={style.liWrap}>
-            <li>
-              <Link to="/">Form</Link>
-            </li>
-            <li>
-              <Link to="/todo">Todo</Link>
-            </li>
-          </ul>
-        </nav>
+    <div>
+      <nav>
+        <ul className={style.liWrap}>
+          <li>
+            <Link to="/">Form</Link>
+          </li>
+          <li>
+            <Link to="/todo">Todo</Link>
+          </li>
+        </ul>
+      </nav>
 
-        {/* A <Switch> looks through its children <Route>s and
-         renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/todo">
-            <Todo />
-          </Route>
-          <Route path="/">
-            <Form />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+      {/* A <Switch> looks through its children <Route>s and
+       renders the first one that matches the current URL. */}
+      <Switch>
+        <Route path="/todo">
+          <Todo />
+        </Route>
+        <Route path="/">
+          <Form />
+        </Route>
+      </Switch>
+    </div>
   );
 }
