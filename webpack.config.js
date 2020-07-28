@@ -31,10 +31,12 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html',
+      chunks: ['main'],
     }),
     new HtmlWebPackPlugin({
       template: './src/about.html',
       filename: './about.html',
+      chunks: ['about'],
     }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output

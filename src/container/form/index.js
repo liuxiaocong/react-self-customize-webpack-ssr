@@ -24,14 +24,6 @@ class MainContainer extends Component {
       <div>
         <h2 className={ style.title }>React self custom</h2>
         <h2 className={ 'title' }>React self custom</h2>
-        <div className={style.imgWrap}>
-          <img src={largeImg} />
-          <img style={{
-            width: 200,
-            height: 'auto',
-            objectFit: 'contain'
-          }} src={mediumImg} />
-        </div>
         <form id="article-form">
           <Input
             text="SEO title"
@@ -43,6 +35,14 @@ class MainContainer extends Component {
           />
           <p>{ this.state.value }</p>
         </form>
+        <div className={style.imgWrap}>
+          <img src={largeImg} />
+          <img style={{
+            width: 200,
+            height: 'auto',
+            objectFit: 'contain'
+          }} src={mediumImg} />
+        </div>
       </div>
     );
   }
