@@ -4,3 +4,5 @@
 ##### Build bundle
 ###### from npm_module vendors~about~main.js page share
 ###### from npm_module vendors~main.js only main page used
+
+##### SSR
