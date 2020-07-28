@@ -6,7 +6,7 @@ import Main from '../src/container/main';
 const reactDomServer = require('react-dom/server');
 let buildHtml;
 module.exports = function(app) {
-  const routerArray = ['/','home','about'];
+  const routerArray = ['/','todo','about'];
   routerArray.forEach((item)=>{
     app.get(item, (req, res) => {
       const context = {};
