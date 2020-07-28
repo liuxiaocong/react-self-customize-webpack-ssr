@@ -4,7 +4,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlCdnWebpackPlugin = require('add-asset-html-cdn-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const nodeExternals = require('webpack-node-externals');
 
 //not need to use this, MiniCssExtractPlugin already support hmr
 const cssLoaderLast = process.env.NODE_ENV === 'development'?
@@ -20,24 +20,14 @@ const cssLoaderLast = process.env.NODE_ENV === 'development'?
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, "src/index.js"),
-    about: path.resolve(__dirname, "src/about.js")
+    main: path.resolve(__dirname, "../src/ssr.js"),
   },
   output: {
-    path: path.resolve(__dirname, 'build'), //出口文件輸出的路徑
-    filename: '[name].js' //出口文件，[name]為入口文件陣列的名稱main喔！
+    path: path.resolve(__dirname, '../buildSsr'), //出口文件輸出的路徑
+    filename: '[name].js', //出口文件，[name]為入口文件陣列的名稱main喔！
+    libraryTarget: 'commonjs2',
   },
   plugins: [
-    new HtmlWebPackPlugin({
-      template: './src/index.html',
-      filename: './index.html',
-      chunks: ['main'],
-    }),
-    new HtmlWebPackPlugin({
-      template: './src/about.html',
-      filename: './about.html',
-      chunks: ['about'],
-    }),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
@@ -45,6 +35,8 @@ module.exports = {
       chunkFilename: '[id].css',
     }),
   ],
+  target: 'node',
+  externals: nodeExternals(),
   module: {
     rules: [
       {
@@ -99,27 +91,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minSize: 10000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-        },
-        default: {
-          minChunks: 1,
-          priority: -20,
-          reuseExistingChunk: true,
-        },
-      },
-    },
   },
 };

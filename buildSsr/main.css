@@ -1,0 +1,32 @@
+.src-container-form-stye__title--1Aasl {
+  color: burlywood;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.title {
+  color: #F00;
+}
+
+.src-container-form-stye__imgWrap--tyxrh {
+  display: flex;
+  flex-direction: row;
+}
+.src-container-form-app__title--LZRrU {
+  color: #F00;
+}
+.src-container-main-style__liWrap--btkua {
+  display: flex;
+  flex-direction: row;
+}
+
+.src-container-main-style__liWrap--btkua li {
+  list-style: none;
+  margin: 0 20px;
+  color: cadetblue;
+  text-transform: uppercase;
+}
+
+.src-container-main-style__liWrap--btkua li:hover {
+  text-decoration: underline;
+}
