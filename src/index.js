@@ -1,6 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Main from "./container/main";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import Main from './container/main';
 
-const wrapper = document.getElementById("create-article-form");
-wrapper ? ReactDOM.render(<Main />, wrapper) : false;
+const wrapper = document.getElementById('create-article-form');
+wrapper ? ReactDOM.render(<BrowserRouter><Main/></BrowserRouter>, wrapper) : false;
