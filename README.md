@@ -12,31 +12,28 @@
 ###### Change index file to ssr file, export render function
 ###### Do not use default react config
 
-###### 之前做过一次ssr的尝试，但是只能支持到js层面，因为大部分网络的教程只提到了babel的兼容和使用react的renderToString方法解析js，实际上无法兼容资源，如之前文章的操作：
+###### Currently most react ssr solution only support js render, but not support css and image render, in order to implement image and css srr,you need to use webpack to generate server side interface.
+###### You can check every commit from this project, step by step, please make star if you like it
 
-这几天花了大量时间终于折腾出一个完美版本，并且是自己构建的webpack配置（之前失败很可能是因为react自带的webpack太复杂，构建服务端代码时有些细节没处理好）
-
-完整代码上传到了git：[https://github.com/liuxiaocong/react-self-customize-webpack-ssr](https://github.com/liuxiaocong/react-self-customize-webpack-ssr)
-下载的话麻烦点个start，每一步的commit都有说明，下面再简单说一下：
-
-###### 1，基本项目结构，webpack配置
-项目结构，src目录为前端开发，server目录为服务器相关，入口文件为index.js和about.js（如果是单入口站点可以忽略）
+###### 1，Base framework and webpack config
+###### SRC folder is for front end development，server folder is server side relative，entry file of front end is index.js and about.js（please ignore if it's single app）
 
 ![image.png](https://upload-images.jianshu.io/upload_images/2388899-78282499cc98562c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-看一下package.json里面的指令设置：
+A look of instructions in package.json：
 ```
 "start": "cross-env NODE_ENV=development webpack-dev-server --open --mode development",
 "build": "cross-env NODE_ENV=production webpack --mode production",
 "server": "nodemon --exec babel-node server/index.js",
 "buildServer": "NODE_ENV=development webpack --config ./server/webpack.server.config.js"
 ```
-######yarn start: 前端代码开发调试.
-######yarn build: 前端代码发布，配置文件为项目根目录下的webpack.config.js.
-######yarn buildServer: 服务器相关代码打包，这一步是为了支持资源加载如css和image，配置文件为根目录下server目录的webpack.server.config.js
-######yarn server: 服务器启动，这一步引用了yarn buildServer打包生产的ssr.js.
+######yarn start: Front end code dev.
+######yarn build:Front end build with config of webpack.config.js in root path.
+######yarn buildServer: Server side relative packing，for css and image resource loading, config file path: /server/webpack.server.config.js
+######yarn server: Server start，use and bundle js which build by 'yarn buildServer' path: /buildSsr/main.js.
 
-前端工程webpack配置，解析js，css，image，打包到根目录下的build文件夹webpack.config.js
+######Front end project webpack config，support js，css，image loader, packing to /build file.
+######webpack.config.js
 ```
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
@@ -160,13 +157,13 @@ module.exports = {
   },
 };
 ```
-再看一下server的webpack配置，跟上面很像，改了入口和输出，保证生产的css和image一致就行。
-注意下面2行代码：
+###### Server side render helper webpack config，mostly same as front end，by change the entry and output, make css and image generate the same and front end。
+Take care of the below code：
 ```
 target: 'node',
 externals: nodeExternals(),
 ```
-这是让输出的js可以在node环境运行，否则会变成引用window对象进行挂接，造成错误。
+It make js can exe on node env，avoid use window object
 ```
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -261,9 +258,9 @@ module.exports = {
 
 ```
 
-###### 2，服务器启动代码
-这部分可以看一下之前的文件[https://www.jianshu.com/p/eba973875d22](https://www.jianshu.com/p/eba973875d22)
-入口文件是index.js
+###### 2，Server side start
+###### This part and find detail from [https://www.jianshu.com/p/eba973875d22](https://www.jianshu.com/p/eba973875d22)
+Entry: index.js
 ```
 import express from 'express';
 //import compression from 'compression';
@@ -298,9 +295,9 @@ app.listen(port, function listenHandler() {
   console.info(`Running on ${ port }`);
 });
 ```
-用的是express，babel require是让后续的运行支持es6语法
-######babel/register模块改写require命令，为它加上一个钩子。此后，每当使用require加载.js、.jsx、.es和.es6后缀名的文件，就会先用Babel进行转码：[http://www.ruanyifeng.com/blog/2016/01/babel.html](http://www.ruanyifeng.com/blog/2016/01/babel.html)
-renderReact.js为主要服务端路由配置，为什么要分开的原因上一篇文章也提过了`babel-register` doesn't process the file it is called from, see [https://stackoverflow.com/a/29425761/1795821](https://links.jianshu.com/go?to=https%3A%2F%2Fstackoverflow.com%2Fa%2F29425761%2F1795821)
+######Use express, babel require to make it run on es6 env;
+######"babel/register模块改写require命令，为它加上一个钩子。此后，每当使用require加载.js、.jsx、.es和.es6后缀名的文件，就会先用Babel进行转码"：[http://www.ruanyifeng.com/blog/2016/01/babel.html](http://www.ruanyifeng.com/blog/2016/01/babel.html)
+######RenderReact.js is the main router logic for server side，the reason why need make with 2 diff js file is because: `babel-register` doesn't process the file it is called from, see [https://stackoverflow.com/a/29425761/1795821](https://links.jianshu.com/go?to=https%3A%2F%2Fstackoverflow.com%2Fa%2F29425761%2F1795821)
 ```
 import React from 'react';
 import fs from 'fs';
@@ -336,10 +333,10 @@ module.exports = function(app) {
   });
 };
 ```
-注意render方法的引用，来源于yarn buildServer生成的ssr.js文件，通过webpack对js和资源进行解析，然后export一个方法给服务器调用
+###### render function is from the js file which build by 'yarn buildServer', /buildSsr/main.js，use webpack to packing js and res by same rule as front end，then export an function for server side
 
-###### 3，前端提供给服务器的入口文件
-这个就是核心，src目录下的ssr.js文件，网上其他资料基本没涉及到，很好的一个思路
+###### 3，Entry which from front end, this is core concept of implement
+###### Path: /src/ssr.js
 ```
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -362,4 +359,4 @@ export default function render(req, res) {
   res.send(result);
 };
 ```
-服务器代码引用的就是render函数，同时资源打包和css解析跟原本的前端js一致，因为基本是同一个webpack配置打包出来的。
+###### For server side it use render function and packing resource same as front end side.
