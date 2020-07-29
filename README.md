@@ -13,8 +13,6 @@
 ###### Do not use default react config
 
 ###### 之前做过一次ssr的尝试，但是只能支持到js层面，因为大部分网络的教程只提到了babel的兼容和使用react的renderToString方法解析js，实际上无法兼容资源，如之前文章的操作：
-[https://www.jianshu.com/p/eba973875d22](https://www.jianshu.com/p/eba973875d22)
-
 
 这几天花了大量时间终于折腾出一个完美版本，并且是自己构建的webpack配置（之前失败很可能是因为react自带的webpack太复杂，构建服务端代码时有些细节没处理好）
 
