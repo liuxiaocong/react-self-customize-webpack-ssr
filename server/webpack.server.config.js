@@ -1,26 +1,21 @@
-const webpack = require('webpack');
 const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const AddAssetHtmlCdnWebpackPlugin = require('add-asset-html-cdn-webpack-plugin');
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 //not need to use this, MiniCssExtractPlugin already support hmr
-const cssLoaderLast = process.env.NODE_ENV === 'development'?
-      'style-loader':
-      {
-        loader: MiniCssExtractPlugin.loader,
-        options: {
-          publicPath: '/css',
-          hmr: true,
-        },
-      }
-
+const cssLoaderLast = process.env.NODE_ENV === 'development' ?
+  'style-loader' :
+  {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      publicPath: '/css',
+      hmr: true,
+    },
+  };
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, "../src/ssr.js"),
+    main: path.resolve(__dirname, '../src/ssr.js'),
   },
   output: {
     path: path.resolve(__dirname, '../buildSsr'), //出口文件輸出的路徑
@@ -64,7 +59,7 @@ module.exports = {
                 localIdentName: '[path][name]__[local]--[hash:base64:5]',
               },
             },
-          }
+          },
         ],
       },
       {

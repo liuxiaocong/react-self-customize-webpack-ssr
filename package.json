@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --open --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dll": "webpack --config webpack.dll.js --mode=production",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "server": "nodemon --exec babel-node server/index.js",
     "buildServer": "NODE_ENV=development webpack --config ./server/webpack.server.config.js"

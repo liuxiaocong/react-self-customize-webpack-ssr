@@ -1,8 +1,5 @@
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const AddAssetHtmlCdnWebpackPlugin = require('add-asset-html-cdn-webpack-plugin');
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
@@ -16,7 +13,6 @@ const cssLoaderLast = process.env.NODE_ENV === 'development'?
           hmr: true,
         },
       }
-
 
 module.exports = {
   entry: {
